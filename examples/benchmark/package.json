@@ -1,0 +1,11 @@
+{
+  "name": "fern-examples-benchmark",
+  "version": "0.0.1",
+  "description": "",
+  "type": "module",
+  "dependencies": {
+    "benchmark": "^2.1.4",
+    "hyperapp": "^2.0.22",
+    "mithril": "^2.2.2"
+  }
+}
