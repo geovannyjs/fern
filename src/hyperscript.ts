@@ -6,6 +6,10 @@ import {
 } from './VNode'
 
 
+const fragment = (...nodes: Array<any>): VNode => ({
+  _fern_: VNodeType.Fragment,
+  children: normalizeChildren(nodes)
+})
 
 function h(itemOrComponent: string | Component<any>, a: object | null, ...children: Array<any>): VNode {
 
@@ -27,7 +31,13 @@ function h(itemOrComponent: string | Component<any>, a: object | null, ...childr
 
 }
 
+const trust = (html: string = ''): VNode => ({
+  _fern_: VNodeType.Raw,
+  item: html
+})
 
 export {
-  h
+  fragment,
+  h,
+  trust
 }
