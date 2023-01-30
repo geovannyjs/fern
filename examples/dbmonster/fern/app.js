@@ -6,9 +6,8 @@ perfMonitor.initProfiler('render')
 
 const h = fern.h
 
-//fern.mount(document.getElementById('app'))((attrs, redraw) => {
+fern.mount(document.getElementById('app'))((attrs, redraw) => {
 
-/*
   let data = []
 
   const update = () => {
@@ -17,14 +16,13 @@ const h = fern.h
     data = ENV.generateData().toArray()
 
     perfMonitor.startProfile('render')
-    //redraw()
-    test.view()
+    redraw()
     perfMonitor.endProfile('render')
   }
 
   update()
-  */
-  const test = {
+
+  return {
     view: () => h('div', [
       h('table', { class: 'table table-striped latest-data' }, [
         h('tbody',
@@ -46,19 +44,4 @@ const h = fern.h
     ])
   }
 
-  let data = []
-
-  const update = () => {
-    requestAnimationFrame(update)
-
-    data = ENV.generateData().toArray()
-
-    perfMonitor.startProfile('render')
-    //redraw()
-    test.view()
-    perfMonitor.endProfile('render')
-  }
-
-  update()
-
-//})
+})

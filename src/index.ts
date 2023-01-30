@@ -1,5 +1,7 @@
 import { h }  from './hyperscript'
+import { mount } from './mount'
 
 export {
-  h
+  h,
+  mount
 }

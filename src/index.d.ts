@@ -1,2 +1,3 @@
 import { h } from './hyperscript';
-export { h };
+import { mount } from './mount';
+export { h, mount };
