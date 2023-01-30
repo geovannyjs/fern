@@ -4,6 +4,7 @@
   "description": "",
   "type": "module",
   "dependencies": {
+    "@types/node": "^18.11.18",
     "benchmark": "^2.1.4",
     "hyperapp": "^2.0.22",
     "mithril": "^2.2.2"

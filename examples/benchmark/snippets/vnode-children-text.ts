@@ -1,8 +1,8 @@
 import Benchmark from 'benchmark'
 
-import { h as hf } from '../../src/index.js'
-import m from 'mithril'
+import fern from '../../../dist/fern.umd.js'
 import { h, text } from 'hyperapp'
+import m from 'mithril'
 
 
 const suite = new Benchmark.Suite('My performance test')
@@ -19,7 +19,7 @@ suite.on('complete', event => {
 })
 
 suite
-  .add('fern#text', () => hf('span', 'Test'))
+  .add('fern#text', () => fern.h('span', null, 'Test'))
   .add('Hyperapp#text', () => h('span', {}, [text('Test')]))
   .add('Mithril#text', () => m('span', 'Test'))
   .run()

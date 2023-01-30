@@ -1,14 +1,20 @@
+import { Component, ComponentReturn } from './Component';
 declare enum Type {
-    Component = 0,
-    Fragment = 1,
-    Raw = 2,
-    Tag = 3,
-    Text = 4
+    Component = 1,
+    Fragment = 2,
+    Raw = 3,
+    Tag = 4,
+    Text = 5
 }
 declare type VNode = {
-    type: Type;
-    tag?: string;
-    content?: string;
-    children: Array<VNode>;
+    _fern_: Type;
+    attrs?: object;
+    item?: string;
+    component?: Component<any>;
+    instance?: ComponentReturn;
+    children?: Array<VNode>;
+    node?: Node;
+    parent?: Node;
 };
-export { Type, VNode };
+declare const normalizeChildren: (children: Array<any>) => Array<VNode>;
+export { Type, VNode, normalizeChildren };
