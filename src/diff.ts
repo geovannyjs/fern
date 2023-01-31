@@ -7,11 +7,11 @@ import { Type as NodeType, buildNode, setElementAttrs } from './Node'
 const diff = (ref: GlobalRef, old: VNode, cur: VNode, index: number = 0): void => {
 
   if(old._fern_ != cur._fern_) {
-    if(old.node?.nodeType === NodeType.Fragment) {
-      let oldChildren = Array.from(<Array<ChildNode>><unknown>old.parent?.childNodes)
+    if((<Node>old.node).nodeType == NodeType.Fragment) {
+      let oldChildren = Array.from(<Array<ChildNode>><unknown>(<Node>old.parent).childNodes)
       old.parent && ( old.parent.nodeValue = '' )
       let curNode = oldChildren.slice(0, index).concat(<ChildNode>buildNode(ref, cur), oldChildren.slice(index + old.children.length + 1))
-      for(let i = 0; i < curNode.length; i++) old.parent?.appendChild(curNode[i])
+      for(let i = 0; i < curNode.length; i++) (<Node>old.parent).appendChild(curNode[i])
     }
     else {
       ;(<Element>old.node).replaceWith(buildNode(ref, cur))
@@ -66,15 +66,15 @@ const diff = (ref: GlobalRef, old: VNode, cur: VNode, index: number = 0): void =
     // cur has more children, so insert them
     if(toDiff < cur.children.length) {
       for(let i = toDiff; i < cur.children.length; i++) {
-        old.parent?.appendChild(buildNode(ref, cur.children[i]))
+        (<Node>old.parent).appendChild(buildNode(ref, cur.children[i]))
         cur.children[i].parent = old.node
       }
     }
     // old has more children, so remove them
     else if(toDiff < old.children.length) {
       for(let i = toDiff; i < old.children.length; i++) {
-        if(old.node?.nodeType === NodeType.Fragment) old.parent?.removeChild(<Node>old.children[i].node)
-        else old.node?.removeChild(<Node>old.children[i].node)
+        if((<Node>old.node).nodeType == NodeType.Fragment) (<Node>old.parent).removeChild(<Node>old.children[i].node)
+        else (<Node>old.node).removeChild(<Node>old.children[i].node)
       }
     }
 

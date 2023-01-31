@@ -127,14 +127,13 @@
     };
 
     const diff = (ref, old, cur, index = 0) => {
-        var _a, _b, _c, _d, _e, _f, _g;
         if (old._fern_ != cur._fern_) {
-            if (((_a = old.node) === null || _a === void 0 ? void 0 : _a.nodeType) === Type.Fragment) {
-                let oldChildren = Array.from((_b = old.parent) === null || _b === void 0 ? void 0 : _b.childNodes);
+            if (old.node.nodeType == Type.Fragment) {
+                let oldChildren = Array.from(old.parent.childNodes);
                 old.parent && (old.parent.nodeValue = '');
                 let curNode = oldChildren.slice(0, index).concat(buildNode(ref, cur), oldChildren.slice(index + old.children.length + 1));
                 for (let i = 0; i < curNode.length; i++)
-                    (_c = old.parent) === null || _c === void 0 ? void 0 : _c.appendChild(curNode[i]);
+                    old.parent.appendChild(curNode[i]);
             }
             else {
                 old.node.replaceWith(buildNode(ref, cur));
@@ -173,17 +172,17 @@
             // cur has more children, so insert them
             if (toDiff < cur.children.length) {
                 for (let i = toDiff; i < cur.children.length; i++) {
-                    (_d = old.parent) === null || _d === void 0 ? void 0 : _d.appendChild(buildNode(ref, cur.children[i]));
+                    old.parent.appendChild(buildNode(ref, cur.children[i]));
                     cur.children[i].parent = old.node;
                 }
             }
             // old has more children, so remove them
             else if (toDiff < old.children.length) {
                 for (let i = toDiff; i < old.children.length; i++) {
-                    if (((_e = old.node) === null || _e === void 0 ? void 0 : _e.nodeType) === Type.Fragment)
-                        (_f = old.parent) === null || _f === void 0 ? void 0 : _f.removeChild(old.children[i].node);
+                    if (old.node.nodeType == Type.Fragment)
+                        old.parent.removeChild(old.children[i].node);
                     else
-                        (_g = old.node) === null || _g === void 0 ? void 0 : _g.removeChild(old.children[i].node);
+                        old.node.removeChild(old.children[i].node);
                 }
             }
             // diff the number of children in common
