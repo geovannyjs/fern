@@ -1,8 +1,8 @@
 import { Component } from './Component'
 import { diff } from './diff'
-import { h, fragment } from './hyperscript'
+import { h } from './hyperscript'
 import { buildNodeFragment } from './Node'
-import { VNode } from './VNode'
+import { EMPTY_OBJECT, VNode, fragment } from './VNode'
 
 
 type Redraw = () => void
@@ -12,13 +12,11 @@ type GlobalRef = {
 
 const rAF = typeof requestAnimationFrame === 'undefined' ? (fn: Function) => fn() : requestAnimationFrame
 
-const mount = (root: Element) => (component: Component<any>, attrs: object = {}): Redraw => {
+const mount = (root: Element) => (component: Component<any>, attrs: object = EMPTY_OBJECT): Redraw => {
 
   let pending = false
   // we start the old vnode as an empty fragment
   let oldVNode: VNode = fragment()
-  oldVNode.parent = root
-  root.nodeValue = ''
 
   const global: GlobalRef = {
     redraw: () => {}
@@ -39,7 +37,11 @@ const mount = (root: Element) => (component: Component<any>, attrs: object = {})
   // first drawn
   rAF(() => {
     const vnode = h(component, attrs)
+
     buildNodeFragment(global, oldVNode)
+    oldVNode.parent = root
+    root.nodeValue = ''
+
     diff(global, oldVNode, vnode)
     oldVNode = vnode
   })

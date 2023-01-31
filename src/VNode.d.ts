@@ -18,5 +18,6 @@ declare type VNode = {
     node?: Node;
     parent?: Node;
 };
+declare const fragment: (...nodes: Array<any>) => VNode;
 declare const normalizeChildren: (children: Array<any>) => Array<VNode>;
-export { EMPTY_ARRAY, EMPTY_OBJECT, Type, VNode, normalizeChildren };
+export { EMPTY_ARRAY, EMPTY_OBJECT, Type, VNode, fragment, normalizeChildren };

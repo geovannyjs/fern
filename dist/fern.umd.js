@@ -14,13 +14,18 @@
     })(Type$1 || (Type$1 = {}));
     const EMPTY_ARRAY = [];
     const EMPTY_OBJECT = {};
+    const fragment = (...nodes) => ({
+        _fern_: Type$1.Fragment,
+        attrs: EMPTY_OBJECT,
+        children: normalizeChildren(nodes)
+    });
     const normalize = (node) => {
         // already a vnode
         if (node._fern_)
             return node;
         // an array, so make it a fragment
         if (Array.isArray(node))
-            return { _fern_: Type$1.Fragment, attrs: EMPTY_OBJECT, children: normalizeChildren(node) };
+            return fragment(...node);
         // so it is a text node
         return { _fern_: Type$1.Text, attrs: EMPTY_OBJECT, item: String(node), children: EMPTY_ARRAY };
     };
@@ -35,11 +40,6 @@
         return children;
     };
 
-    const fragment = (...nodes) => ({
-        _fern_: Type$1.Fragment,
-        attrs: EMPTY_OBJECT,
-        children: normalizeChildren(nodes)
-    });
     function h(itemOrComponent, a, ...children) {
         const isComponent = typeof itemOrComponent == 'function';
         const attrs = a || EMPTY_OBJECT;
@@ -128,7 +128,7 @@
 
     const diff = (ref, old, cur, index = 0) => {
         var _a, _b, _c, _d, _e, _f, _g;
-        if (old._fern_ !== cur._fern_) {
+        if (old._fern_ != cur._fern_) {
             if (((_a = old.node) === null || _a === void 0 ? void 0 : _a.nodeType) === Type.Fragment) {
                 let oldChildren = Array.from((_b = old.parent) === null || _b === void 0 ? void 0 : _b.childNodes);
                 old.parent && (old.parent.nodeValue = '');
@@ -166,22 +166,6 @@
                     old.node.replaceWith(buildNode(ref, cur));
                     return;
                 }
-                // diff attrs
-                else {
-                    // if old attrs do not exist in the cur, delete them
-                    const oldAttrs = Object.keys(old.attrs);
-                    for (let i = 0; i < oldAttrs.length; i++) {
-                        if (cur.attrs[oldAttrs[i]] == old.attrs[oldAttrs[i]])
-                            continue;
-                        if (oldAttrs[i].slice(0, 2) == 'on') {
-                            old.attrs && old.node.removeEventListener(oldAttrs[i].slice(2), old.attrs[oldAttrs[i]]);
-                        }
-                        else
-                            old.node.removeAttribute(oldAttrs[i]);
-                    }
-                    // create all attrs from cur
-                    setElementAttrs(old.node, cur.attrs);
-                }
             }
             // for vnodes that may have children ( components, fragments and tags )
             // diff the children and keep the dom reference
@@ -211,12 +195,10 @@
     };
 
     const rAF = typeof requestAnimationFrame === 'undefined' ? (fn) => fn() : requestAnimationFrame;
-    const mount = (root) => (component, attrs = {}) => {
+    const mount = (root) => (component, attrs = EMPTY_OBJECT) => {
         let pending = false;
         // we start the old vnode as an empty fragment
         let oldVNode = fragment();
-        oldVNode.parent = root;
-        root.nodeValue = '';
         const global = {
             redraw: () => { }
         };
@@ -236,6 +218,8 @@
         rAF(() => {
             const vnode = h(component, attrs);
             buildNodeFragment(global, oldVNode);
+            oldVNode.parent = root;
+            root.nodeValue = '';
             diff(global, oldVNode, vnode);
             oldVNode = vnode;
         });

@@ -23,11 +23,17 @@ type VNode = {
   parent?: Node
 }
 
+const fragment = (...nodes: Array<any>): VNode => ({
+  _fern_: Type.Fragment,
+  attrs: EMPTY_OBJECT,
+  children: normalizeChildren(nodes)
+})
+
 const normalize = (node: any): VNode => {
   // already a vnode
   if(node._fern_) return node
   // an array, so make it a fragment
-  if(Array.isArray(node)) return { _fern_: Type.Fragment, attrs: EMPTY_OBJECT, children: normalizeChildren(node) }
+  if(Array.isArray(node)) return fragment(...node)
   // so it is a text node
   return { _fern_: Type.Text, attrs: EMPTY_OBJECT, item: String(node), children: EMPTY_ARRAY }
 }
@@ -46,5 +52,6 @@ export {
   EMPTY_OBJECT,
   Type,
   VNode,
+  fragment,
   normalizeChildren
 }
