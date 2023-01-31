@@ -6,15 +6,17 @@ declare enum Type {
     Tag = 4,
     Text = 5
 }
+declare const EMPTY_ARRAY: Array<any>;
+declare const EMPTY_OBJECT: {};
 declare type VNode = {
     _fern_: Type;
-    attrs?: object;
+    attrs: object;
     item?: string;
     component?: Component<any>;
     instance?: ComponentReturn;
-    children?: Array<VNode>;
+    children: Array<VNode>;
     node?: Node;
     parent?: Node;
 };
 declare const normalizeChildren: (children: Array<any>) => Array<VNode>;
-export { Type, VNode, normalizeChildren };
+export { EMPTY_ARRAY, EMPTY_OBJECT, Type, VNode, normalizeChildren };

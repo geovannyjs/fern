@@ -1,66 +1,64 @@
-import { Component } from './Component'
+import { Component, ComponentReturn } from './Component'
 import { GlobalRef } from './mount'
 import { VNode, Type as VNodeType } from './VNode'
-//import { Type as NodeType, buildNode, buildNodeTag, setElementAttrs } from './Node'
+import { Type as NodeType, buildNode, setElementAttrs } from './Node'
 
 
 const diff = (ref: GlobalRef, old: VNode, cur: VNode, index: number = 0): void => {
 
-  if(old._fern_ !== cur._fern_) {/*
+  if(old._fern_ != cur._fern_) {
     if(old.node?.nodeType === NodeType.Fragment) {
       let oldChildren = Array.from(<Array<ChildNode>><unknown>old.parent?.childNodes)
-      old.parent && ( old.parent.textContent = '' )
+      old.parent && ( old.parent.nodeValue = '' )
       let curNode = oldChildren.slice(0, index).concat(<ChildNode>buildNode(ref, cur), oldChildren.slice(index + old.children.length + 1))
       for(let i = 0; i < curNode.length; i++) old.parent?.appendChild(curNode[i])
     }
     else {
       ;(<Element>old.node).replaceWith(buildNode(ref, cur))
     }
-    cur.parent = old.parent*/
+    cur.parent = old.parent
     return
   }
   else {
     // Text
-    /*
-    if(cur.type === VNodeType.Text) {
-      if(<string>old.item != <string>cur.item) { ;(<Element>old.node).textContent = <string>cur.item }
+    if(cur._fern_ == VNodeType.Text) {
+      if(old.item != cur.item) (<Node>old.node).nodeValue = <string>cur.item
       cur.node = old.node
       cur.parent = old.parent
       return
     }
-    */
 
     // Component
-    //else 
-    if(cur._fern_ === VNodeType.Component) {
+    else if(cur._fern_ == VNodeType.Component) {
 
       // component is different, so create a new instance
-      if(old.component !== cur.component) cur.instance = (<Component<any>>cur.component)(cur.attrs, ref.redraw)
+      if(old.component != cur.component) cur.instance = (<Component<any>>cur.component)(cur.attrs, ref.redraw)
       else cur.instance = old.instance
 
-      cur.children = cur.instance ? [cur.instance?.view({ attrs: cur.attrs || {}, children: cur.children || [] })] : []
+      cur.children = [(<ComponentReturn>cur.instance).view({ attrs: cur.attrs, children: cur.children })]
     }
-/*
     // Tag
-    else if(cur.type === VNodeType.Tag) {
-      if(old.item !== cur.item) { 
-        (<Element>old.node).replaceWith(buildNodeTag(ref, cur))
+    else if(cur._fern_ == VNodeType.Tag) {
+      if(old.item != cur.item) { 
+        (<Element>old.node).replaceWith(buildNode(ref, cur))
         return
       }
       // diff attrs
       else {
+        /*
         // if old attrs do not exist in the cur, delete them
         const oldAttrs = Object.keys(old.attrs)
         type OldAttrsKey = keyof typeof old.attrs
         for(let i = 0; i < oldAttrs.length; i++) {
-          if(oldAttrs[i].slice(0, 2) === 'on') { ;(<Element>old.node).removeEventListener(oldAttrs[i].slice(2), old.attrs[oldAttrs[i] as OldAttrsKey]) }
+          if(cur.attrs[oldAttrs[i] as OldAttrsKey] == old.attrs[oldAttrs[i] as OldAttrsKey]) continue
+          if(oldAttrs[i].slice(0, 2) == 'on') { old.attrs && (<Element>old.node).removeEventListener(oldAttrs[i].slice(2), old.attrs[oldAttrs[i] as OldAttrsKey]) }
           else (<Element>old.node).removeAttribute(oldAttrs[i])
         }
         // create all attrs from cur
         setElementAttrs(<Element>old.node, cur.attrs)
+        */
       }
     }
-
     // for vnodes that may have children ( components, fragments and tags )
     // diff the children and keep the dom reference
     const toDiff = Math.min(old.children.length, cur.children.length)
@@ -84,7 +82,6 @@ const diff = (ref: GlobalRef, old: VNode, cur: VNode, index: number = 0): void =
     for(let i=0; i < toDiff; i++) diff(ref, old.children[i], cur.children[i], i)
     cur.node = old.node
     cur.parent = old.parent
-    */
   }
 }
 

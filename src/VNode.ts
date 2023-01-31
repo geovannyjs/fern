@@ -9,13 +9,16 @@ enum Type {
   Text
 }
 
+const EMPTY_ARRAY: Array<any> = []
+const EMPTY_OBJECT = {}
+
 type VNode = {
   _fern_: Type
-  attrs?: object
+  attrs: object
   item?: string
   component?: Component<any>
   instance?: ComponentReturn
-  children?: Array<VNode>
+  children: Array<VNode>
   node?: Node
   parent?: Node
 }
@@ -24,9 +27,9 @@ const normalize = (node: any): VNode => {
   // already a vnode
   if(node._fern_) return node
   // an array, so make it a fragment
-  if(Array.isArray(node)) return { _fern_: Type.Fragment, children: normalizeChildren(node) }
+  if(Array.isArray(node)) return { _fern_: Type.Fragment, attrs: EMPTY_OBJECT, children: normalizeChildren(node) }
   // so it is a text node
-  return { _fern_: Type.Text, item: String(node) }
+  return { _fern_: Type.Text, attrs: EMPTY_OBJECT, item: String(node), children: EMPTY_ARRAY }
 }
 
 const normalizeChildren = (children: Array<any>): Array<VNode> => {
@@ -39,6 +42,8 @@ const normalizeChildren = (children: Array<any>): Array<VNode> => {
 }
 
 export {
+  EMPTY_ARRAY,
+  EMPTY_OBJECT,
   Type,
   VNode,
   normalizeChildren

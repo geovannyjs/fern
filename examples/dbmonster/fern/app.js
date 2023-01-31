@@ -6,7 +6,7 @@ perfMonitor.initProfiler('render')
 
 const h = fern.h
 
-fern.mount(document.getElementById('app'))((attrs, redraw) => {
+const redraw = fern.mount(document.getElementById('app'))((attrs, redraw) => {
 
   let data = []
 
@@ -23,10 +23,10 @@ fern.mount(document.getElementById('app'))((attrs, redraw) => {
   update()
 
   return {
-    view: () => h('div', [
+    view: () => h('div', null, [
       h('table', { class: 'table table-striped latest-data' }, [
-        h('tbody',
-          data.map((db) => h('tr', [
+        h('tbody', null,
+          data.map((db) => h('tr', null, [
             h('td', { class: 'dbname' }, db.dbname),
             h('td', { class: 'query-count' },  [
               h('span', { class: db.lastSample.countClassName }, db.lastSample.nbQueries)
