@@ -6,8 +6,6 @@ declare enum Type {
     Tag = 4,
     Text = 5
 }
-declare const EMPTY_ARRAY: Array<any>;
-declare const EMPTY_OBJECT: {};
 declare type VNode = {
     _fern_: Type;
     attrs: object;
@@ -18,6 +16,8 @@ declare type VNode = {
     node?: Node;
     parent?: Node;
 };
+declare const EMPTY_ARRAY: Array<any>;
+declare const EMPTY_OBJECT: {};
 declare const fragment: (...nodes: Array<any>) => VNode;
 declare const normalizeChildren: (children: Array<any>) => Array<VNode>;
 export { EMPTY_ARRAY, EMPTY_OBJECT, Type, VNode, fragment, normalizeChildren };

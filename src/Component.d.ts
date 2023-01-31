@@ -1,3 +1,4 @@
+import { Redraw } from './mount';
 import { VNode } from './VNode';
 declare type Attrs<T extends object> = T;
 declare type ComponentLifeCycleMethods = {
@@ -14,5 +15,5 @@ declare type ComponentViewMethod = {
     }) => VNode;
 };
 declare type ComponentReturn = ComponentLifeCycleMethods & ComponentViewMethod;
-declare type Component<T extends object> = (attrs: Attrs<T>, redraw: () => void) => ComponentReturn;
-export { Attrs, Component, ComponentReturn };
+declare type Component<T extends object> = (attrs: Attrs<T>, redraw: Redraw) => ComponentReturn;
+export { Component, ComponentReturn };

@@ -52,5 +52,6 @@ const mount = (root: Element) => (component: Component<any>, attrs: object = EMP
 
 export {
   GlobalRef,
+  Redraw,
   mount
 }

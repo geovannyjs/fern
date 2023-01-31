@@ -9,9 +9,6 @@ enum Type {
   Text
 }
 
-const EMPTY_ARRAY: Array<any> = []
-const EMPTY_OBJECT = {}
-
 type VNode = {
   _fern_: Type
   attrs: object
@@ -22,6 +19,9 @@ type VNode = {
   node?: Node
   parent?: Node
 }
+
+const EMPTY_ARRAY: Array<any> = []
+const EMPTY_OBJECT = {}
 
 const fragment = (...nodes: Array<any>): VNode => ({
   _fern_: Type.Fragment,

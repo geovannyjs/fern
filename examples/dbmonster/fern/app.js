@@ -6,7 +6,7 @@ perfMonitor.initProfiler('render')
 
 const h = fern.h
 
-const redraw = fern.mount(document.getElementById('app'))((attrs, redraw) => {
+fern.mount(document.getElementById('app'))((attrs, redraw) => {
 
   let data = []
 

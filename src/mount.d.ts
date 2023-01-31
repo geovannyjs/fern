@@ -4,4 +4,4 @@ declare type GlobalRef = {
     redraw: Redraw;
 };
 declare const mount: (root: Element) => (component: Component<any>, attrs?: object) => Redraw;
-export { GlobalRef, mount };
+export { GlobalRef, Redraw, mount };

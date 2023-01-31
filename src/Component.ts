@@ -1,3 +1,4 @@
+import { Redraw } from './mount'
 import { VNode } from './VNode'
 
 
@@ -17,10 +18,9 @@ type ComponentViewMethod = {
 
 type ComponentReturn = ComponentLifeCycleMethods & ComponentViewMethod
 
-type Component<T extends object> = (attrs: Attrs<T>, redraw: () => void) => ComponentReturn
+type Component<T extends object> = (attrs: Attrs<T>, redraw: Redraw) => ComponentReturn
 
 export {
-  Attrs,
   Component,
   ComponentReturn
 }
