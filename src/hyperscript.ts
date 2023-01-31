@@ -28,7 +28,7 @@ function h(itemOrComponent: string | Component<any>, a: object | null, ...childr
 
 }
 
-const trust = (html: string = ''): VNode => ({
+const raw = (html: string = ''): VNode => ({
   _fern_: VNodeType.Raw,
   attrs: EMPTY_OBJECT,
   item: html,
@@ -37,5 +37,5 @@ const trust = (html: string = ''): VNode => ({
 
 export {
   h,
-  trust
+  raw
 }
