@@ -10,7 +10,7 @@ const diff = (ref: GlobalRef, old: VNode, cur: VNode, index: number = 0): void =
     if((<Node>old.node).nodeType == NodeType.Fragment) {
       let oldChildren = Array.from(<Array<ChildNode>><unknown>(<Node>old.parent).childNodes)
       old.parent && ( old.parent.textContent = '' )
-      let curNode = oldChildren.slice(0, index).concat(<ChildNode>buildNode(ref, cur), oldChildren.slice(index + old.children.length + 1))
+      let curNode = [...oldChildren.slice(0, index), <ChildNode>buildNode(ref, cur), ...oldChildren.slice(index + old.children.length + 1)]
       for(let i = 0; i < curNode.length; i++) (<Node>old.parent).appendChild(curNode[i])
     }
     else {

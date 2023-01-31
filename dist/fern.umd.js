@@ -130,8 +130,8 @@
         if (old._fern_ != cur._fern_) {
             if (old.node.nodeType == Type.Fragment) {
                 let oldChildren = Array.from(old.parent.childNodes);
-                old.parent && (old.parent.nodeValue = '');
-                let curNode = oldChildren.slice(0, index).concat(buildNode(ref, cur), oldChildren.slice(index + old.children.length + 1));
+                old.parent && (old.parent.textContent = '');
+                let curNode = [...oldChildren.slice(0, index), buildNode(ref, cur), ...oldChildren.slice(index + old.children.length + 1)];
                 for (let i = 0; i < curNode.length; i++)
                     old.parent.appendChild(curNode[i]);
             }
@@ -219,7 +219,7 @@
             const vnode = h(component, attrs);
             buildNodeFragment(global, oldVNode);
             oldVNode.parent = root;
-            root.nodeValue = '';
+            root.textContent = '';
             diff(global, oldVNode, vnode);
             oldVNode = vnode;
         });
