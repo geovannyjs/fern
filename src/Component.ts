@@ -13,7 +13,7 @@ type ComponentLifeCycleMethods = {
 }
 
 type ComponentViewMethod = {
-  view: ({ attrs, children }: { attrs: object, children: Array<VNode> }) => VNode
+  view: ({ attrs, children }: { attrs: object, children: Array<any> }) => VNode
 }
 
 type ComponentReturn = ComponentLifeCycleMethods & ComponentViewMethod

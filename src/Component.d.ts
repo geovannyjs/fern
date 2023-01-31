@@ -11,7 +11,7 @@ declare type ComponentLifeCycleMethods = {
 declare type ComponentViewMethod = {
     view: ({ attrs, children }: {
         attrs: object;
-        children: Array<VNode>;
+        children: Array<any>;
     }) => VNode;
 };
 declare type ComponentReturn = ComponentLifeCycleMethods & ComponentViewMethod;
