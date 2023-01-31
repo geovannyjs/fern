@@ -14,13 +14,16 @@ const rAF = typeof requestAnimationFrame === 'undefined' ? (fn: Function) => fn(
 
 const mount = (root: Element) => (component: Component<any>, attrs: object = EMPTY_OBJECT): Redraw => {
 
-  let pending = false
-  // we start the old vnode as an empty fragment
-  let oldVNode: VNode = fragment()
-
   const global: GlobalRef = {
     redraw: () => {}
   }
+
+  // if pending is true, a redraw is running
+  let pending = false
+
+  // we start the old vnode as an empty fragment
+  let oldVNode: VNode = fragment()
+
 
   // redraw
   global.redraw = () => {

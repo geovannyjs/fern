@@ -196,12 +196,13 @@
 
     const rAF = typeof requestAnimationFrame === 'undefined' ? (fn) => fn() : requestAnimationFrame;
     const mount = (root) => (component, attrs = EMPTY_OBJECT) => {
-        let pending = false;
-        // we start the old vnode as an empty fragment
-        let oldVNode = fragment();
         const global = {
             redraw: () => { }
         };
+        // if pending is true, a redraw is running
+        let pending = false;
+        // we start the old vnode as an empty fragment
+        let oldVNode = fragment();
         // redraw
         global.redraw = () => {
             if (pending)
@@ -226,6 +227,7 @@
         return global.redraw;
     };
 
+    exports.fragment = fragment;
     exports.h = h;
     exports.mount = mount;
 
