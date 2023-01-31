@@ -43,7 +43,7 @@ const mount = (root: Element) => (component: Component<any>, attrs: object = EMP
 
     buildNodeFragment(global, oldVNode)
     oldVNode.parent = root
-    root.nodeValue = ''
+    root.textContent = ''
 
     diff(global, oldVNode, vnode)
     oldVNode = vnode
