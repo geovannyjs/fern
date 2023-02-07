@@ -165,6 +165,22 @@
                     old.node.replaceWith(buildNode(ref, cur));
                     return;
                 }
+                // diff attrs
+                else {
+                    // if old attrs do not exist in the cur, delete them
+                    const oldAttrs = Object.keys(old.attrs);
+                    for (let i = 0; i < oldAttrs.length; i++) {
+                        if (cur.attrs[oldAttrs[i]] == old.attrs[oldAttrs[i]])
+                            continue;
+                        if (oldAttrs[i].slice(0, 2) == 'on') {
+                            old.attrs && old.node.removeEventListener(oldAttrs[i].slice(2), old.attrs[oldAttrs[i]]);
+                        }
+                        else
+                            old.node.removeAttribute(oldAttrs[i]);
+                    }
+                    // create all attrs from cur
+                    setElementAttrs(old.node, cur.attrs);
+                }
             }
             // for vnodes that may have children ( components, fragments and tags )
             // diff the children and keep the dom reference

@@ -45,7 +45,6 @@ const diff = (ref: GlobalRef, old: VNode, cur: VNode, index: number = 0): void =
       }
       // diff attrs
       else {
-        /*
         // if old attrs do not exist in the cur, delete them
         const oldAttrs = Object.keys(old.attrs)
         type OldAttrsKey = keyof typeof old.attrs
@@ -56,7 +55,6 @@ const diff = (ref: GlobalRef, old: VNode, cur: VNode, index: number = 0): void =
         }
         // create all attrs from cur
         setElementAttrs(<Element>old.node, cur.attrs)
-        */
       }
     }
     // for vnodes that may have children ( components, fragments and tags )
