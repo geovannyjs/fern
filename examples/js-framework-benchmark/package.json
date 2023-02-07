@@ -1,0 +1,26 @@
+{
+  "name": "js-framework-benchmark-fern-0.0.1",
+  "version": "2.0.4",
+  "description": "Benchmark for Fern 0.0.1 framework",
+  "js-framework-benchmark": {
+    "frameworkVersionFromPackage": "fern",
+    "frameworkHomeURL": "https://github.com/geovannyjs/fern/",
+    "issues": [
+      1139
+    ]
+  },
+  "scripts": {
+    "build-dev": "webpack -w -d",
+    "build-prod": "webpack -p"
+  },
+  "devDependencies": {
+    "babel-core": "6.24.1",
+    "babel-loader": "7.0.0",
+    "babel-plugin-transform-react-jsx": "6.24.1",
+    "babel-preset-es2015": "6.24.1",
+    "babel-preset-react": "6.24.1",
+    "webpack": "2.4.1"
+  },
+  "dependencies": {
+  }
+}
