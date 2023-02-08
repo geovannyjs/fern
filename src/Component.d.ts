@@ -2,11 +2,11 @@ import { Redraw } from './mount';
 import { VNode } from './VNode';
 declare type Attrs<T extends object> = T;
 declare type ComponentLifeCycleMethods = {
-    afterCreate?: () => any;
-    afterRemove?: () => any;
-    afterUpdate?: () => any;
-    beforeRemove?: () => boolean;
-    beforeUpdate?: () => boolean;
+    created?: () => any;
+    delayRemove?: () => any;
+    removed?: () => any;
+    shouldUpdate?: () => boolean;
+    updated?: () => any;
 };
 declare type ComponentViewMethod = {
     view: ({ attrs, children }: {
